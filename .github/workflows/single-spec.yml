@@ -1,0 +1,46 @@
+name: Run Single Spec
+run-name: Run spec - ${{ inputs.specName }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      specName:
+        type: string
+        required: true
+        description: Type the spec name
+
+jobs:
+  run_spec:
+    name: Run tests in selected spec
+    runs-on: [ self-hosted, ubuntu-2004 ]
+    container:
+      image: mcr.microsoft.com/playwright:v1.35.1-focal
+      options: --ipc=host
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Install dependencies
+        run: yarn install
+      - name: Run tests
+        run: yarn playwright test ${{ github.event.inputs.specName }} --config playwright.config.ts --no-deps
+        env:
+          BASE_URL: ${{ secrets.BASE_URL }}
+          USER_EMAIL: ${{ secrets.USER_EMAIL }}
+          USER_PASSWORD: ${{ secrets.USER_PASSWORD }}
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: spec-report
+          path: report/
+          retention-days: 5
+      - name: Adding note
+        if: always()
+        run: |
+          echo 'To check the report open an index.html from the spec-report artifact' >> $GITHUB_STEP_SUMMARY
+          echo 'To debug tests rop .zip trace file into the [Playwright Trace Viewer](https://trace.playwright.dev/).' >> $GITHUB_STEP_SUMMARY

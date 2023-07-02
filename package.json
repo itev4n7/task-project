@@ -1,0 +1,17 @@
+{
+  "name": "task-project",
+  "version": "1.0.0",
+  "description": "Playwright Test Framework (sample project)",
+  "author": "Oleksii Kvasov",
+  "license": "ISC",
+  "scripts": {
+    "test:headed": "yarn playwright test --config playwright.config.ts --headed",
+    "test:headless": "yarn playwright test --config playwright.config.ts"
+  },
+  "dependencies": {
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.35.1"
+  }
+}
