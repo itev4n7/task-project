@@ -4,12 +4,11 @@ import { loginPage, LoginPage } from '../pages/login.page'
 /**
  * Fixtures for playwright use
  */
-type extendPageObject = {
+type pageFixtures = {
     loginPage: LoginPage
-    //...more pages
 }
 
-export const test = base.extend<extendPageObject>({
+export const test = base.extend<pageFixtures>({
     ...loginPage
 })
 

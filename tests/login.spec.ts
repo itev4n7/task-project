@@ -9,8 +9,8 @@ test('Check login process', async ({ page, loginPage }) => {
 
 test('Check error message while login process', async ({ page, loginPage }) => {
     const invalidUser = new UserBuilder().setEmail('non@mail.com').setPassword('test1pass2').build()
-    await loginPage.page.goto('/')
-    await loginPage.page.waitForLoadState('networkidle')
+    await page.goto('/')
+    await page.waitForLoadState('networkidle')
     await loginPage.loginForm.waitFor({ state: 'visible' })
     await loginPage.emailInput.type(invalidUser.email)
     await loginPage.passwordInput.type(invalidUser.password)
