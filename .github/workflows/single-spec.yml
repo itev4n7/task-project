@@ -37,7 +37,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: spec-report
-          path: report/
+          path: test-html-report/
           retention-days: 5
       - name: Adding note
         if: always()
